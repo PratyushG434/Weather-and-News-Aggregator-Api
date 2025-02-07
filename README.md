@@ -17,7 +17,7 @@ https://weather-and-news-aggregator-dohnfguld.vercel.app
 ### 📝 User Authentication
 
 #### 🔹 **Register a New User**
-- **Endpoint**: `POST /register`
+- **Endpoint**: `POST /auth/register`
 - **Description**: Registers a new user.
 - **Body Parameters**:
   ```json
@@ -38,7 +38,7 @@ https://weather-and-news-aggregator-dohnfguld.vercel.app
   ```
 
 #### 🔹 **User Login**
-- **Endpoint**: `POST /login`
+- **Endpoint**: `POST /auth/login`
 - **Description**: Logs in a registered user and returns a JWT token.
 - **Body Parameters**:
   ```json
@@ -49,14 +49,14 @@ https://weather-and-news-aggregator-dohnfguld.vercel.app
   ```
 - **Response**:
   ```json
-  "Your JWT bearer authorization token is : <TOKEN>"
+  "<TOKEN>"
   ```
 
 ### 🌍 **User Preferences Management**
 
 #### 🔹 **Save User Preferences**
-- **Endpoint**: `POST /save-preferences`
-- **Authorization**: Bearer Token (JWT Required)
+- **Endpoint**: `POST /user/preferences`
+- **Authorization**: Bearer Token (JWT Required) in request header
 - **Body Parameters**:
   ```json
   {
@@ -74,8 +74,8 @@ https://weather-and-news-aggregator-dohnfguld.vercel.app
   ```
 
 #### 🔹 **Update User Preferences**
-- **Endpoint**: `PUT /update-preferences`
-- **Authorization**: Bearer Token (JWT Required)
+- **Endpoint**: `PUT /user/preferences`
+- **Authorization**: Bearer Token (JWT Required) in request header
 - **Body Parameters** (Only provide fields you want to update):
   ```json
   {
@@ -91,8 +91,8 @@ https://weather-and-news-aggregator-dohnfguld.vercel.app
   ```
 
 #### 🔹 **Delete User Preferences**
-- **Endpoint**: `DELETE /delete-preferences`
-- **Authorization**: Bearer Token (JWT Required)
+- **Endpoint**: `DELETE /user/preferences/delete`
+- **Authorization**: Bearer Token (JWT Required) in request header
 - **Response**:
   ```json
   {
@@ -103,8 +103,8 @@ https://weather-and-news-aggregator-dohnfguld.vercel.app
 ### ❌ **User Management**
 
 #### 🔹 **Delete a User Account**
-- **Endpoint**: `DELETE /delete-user`
-- **Authorization**: Bearer Token (JWT Required)
+- **Endpoint**: `DELETE /user/delete`
+- **Authorization**: Bearer Token (JWT Required) in request header 
 - **Response**:
   ```json
   {
@@ -115,29 +115,174 @@ https://weather-and-news-aggregator-dohnfguld.vercel.app
 ### 🌦️ **Weather & News Fetching**
 
 #### 🔹 **Get Weather and News for a City**
-- **Endpoint**: `GET /weather-news?city=Mumbai`
+- **Endpoint**: `GET /weatherAndNews?city=Mumbai`
 - **Description**: Fetches weather and news for the specified city.
 - **Response**:
   ```json
   {
     "weather": {
-      "temperature": "30°C",
-      "humidity": "70%",
-      "description": "Partly Cloudy"
+        "openWeatherApi": {
+            "location": {
+                "city": "Connaught Place",
+                "country": "IN",
+                "timezone": 19800
+            },
+            "temperature": {
+                "value": 294.21,
+                "unit": "°C",
+                "feelsLike": 293.05
+            },
+            "condition": {
+                "description": "haze",
+                "icon": "50d"
+            },
+            "wind": {
+                "speed": 5.14,
+                "direction": 280
+            },
+            "humidity": 26,
+            "visibility": 5,
+            "lastUpdated": "2025-02-07T11:09:44.386Z"
+        },
+        "weatherAPI": {
+            "location": {
+                "city": "New Delhi",
+                "country": "India",
+                "timezone": "Asia/Kolkata"
+            },
+            "temperature": {
+                "value": 21.2,
+                "unit": "°C",
+                "feelsLike": 21.2
+            },
+            "condition": {
+                "description": "Mist",
+                "icon": "//cdn.weatherapi.com/weather/64x64/day/143.png"
+            },
+            "wind": {
+                "speed": 18,
+                "direction": 294
+            },
+            "humidity": 26,
+            "visibility": 5,
+            "lastUpdated": "2025-02-07T11:09:44.948Z"
+        }
     },
-    "news": [
-      {
-        "headline": "Tech Innovations in India",
-        "source": "Times of India",
-        "link": "https://news.example.com"
-      },
-      {
-        "headline": "Stock Market Hits Record High",
-        "source": "Economic Times",
-        "link": "https://news.example.com"
-      }
-    ]
-  }
+    "news": {
+        "newsApi": {
+            "articles": [
+                {
+                    "headline": "Abstimmung in Delhi: Wahlkampf mit Besen",
+                    "source": "Faz.net",
+                    "publishedAt": "2025-02-04T18:05:17Z",
+                    "summary": "Niemand hat Indiens Regierungschef Modi bisher so vorgeführt wie der Landeschef von Delhi, Arvind Kejriwal. Doch nach zehn Jahren sind einige Wähler von                                   ihm und seiner Partei enttäuscht. Schafft er trotzdem die Wiederwahl?",
+                    "url": "https://www.faz.net/aktuell/politik/ausland/abstimmung-in-delhi-modis-kontrahent-wackelt-im-wahlkampf-110275849.html",
+                    "image": "https://media1.faz.net/ppmedia/aktuell/politik/1088118842/1.10275845/facebook_teaser_fplus/ein-aergernis-fuer-die-bjp.jpg",
+                    "category": null
+                },
+               
+        "gNewsApi": {
+            "articles": [
+                {
+                    "headline": "Delhi Vidhan Sabha Chunav/Election Result 2025 Vote Counting Date and Time, Key Constituencies",
+                    "source": "The Indian Express",
+                    "publishedAt": "2025-02-07T08:11:32Z",
+                    "summary": "Election Commission of India (ECI), Delhi Election Results 2025 Counting Date, Time, Key Constituencies Live Updates :",
+                    "url": "https://indianexpress.com/article/cities/delhi/delhi-election-results-2025-live-updates-election-commission-of-india-vidhan-sabha-chunav-results-9822255/",
+                    "image": "https://images.indianexpress.com/2025/02/arvind-kejriwal-6.jpg",
+                    "category": null
+                },
+        
+            ]
+        }
+    }
+
+
+  ```
+#### 🔹 **Get Personalised Weather and News for a City**
+- **Endpoint**: `GET /weatherAndNews/personalised` (NOTE : YOU DON'T NEED TO ADD CITY IF YOU WANT UPDATES OF THE ADDED PREFERRED CITY)
+- **Description**: Fetches weather and news for the specified/preferred city.
+- **Response**:
+  ```json
+  {
+    "weather": {
+        "openWeatherApi": {
+            "location": {
+                "city": "Connaught Place",
+                "country": "IN",
+                "timezone": 19800
+            },
+            "temperature": {
+                "value": 294.21,
+                "unit": "°C",
+                "feelsLike": 293.05
+            },
+            "condition": {
+                "description": "haze",
+                "icon": "50d"
+            },
+            "wind": {
+                "speed": 5.14,
+                "direction": 280
+            },
+            "humidity": 26,
+            "visibility": 5,
+            "lastUpdated": "2025-02-07T11:09:44.386Z"
+        },
+        "weatherAPI": {
+            "location": {
+                "city": "New Delhi",
+                "country": "India",
+                "timezone": "Asia/Kolkata"
+            },
+            "temperature": {
+                "value": 21.2,
+                "unit": "°C",
+                "feelsLike": 21.2
+            },
+            "condition": {
+                "description": "Mist",
+                "icon": "//cdn.weatherapi.com/weather/64x64/day/143.png"
+            },
+            "wind": {
+                "speed": 18,
+                "direction": 294
+            },
+            "humidity": 26,
+            "visibility": 5,
+            "lastUpdated": "2025-02-07T11:09:44.948Z"
+        }
+    },
+    "news": {
+        "newsApi": {
+            "articles": [
+                {
+                    "headline": "Abstimmung in Delhi: Wahlkampf mit Besen",
+                    "source": "Faz.net",
+                    "publishedAt": "2025-02-04T18:05:17Z",
+                    "summary": "Niemand hat Indiens Regierungschef Modi bisher so vorgeführt wie der Landeschef von Delhi, Arvind Kejriwal. Doch nach zehn Jahren sind einige Wähler von                                    ihm und seiner Partei enttäuscht. Schafft er trotzdem die Wiederwahl?",
+                    "url": "https://www.faz.net/aktuell/politik/ausland/abstimmung-in-delhi-modis-kontrahent-wackelt-im-wahlkampf-110275849.html",
+                    "image": "https://media1.faz.net/ppmedia/aktuell/politik/1088118842/1.10275845/facebook_teaser_fplus/ein-aergernis-fuer-die-bjp.jpg",
+                    "category": null
+                },
+               
+        "gNewsApi": {
+            "articles": [
+                {
+                    "headline": "Delhi Vidhan Sabha Chunav/Election Result 2025 Vote Counting Date and Time, Key Constituencies",
+                    "source": "The Indian Express",
+                    "publishedAt": "2025-02-07T08:11:32Z",
+                    "summary": "Election Commission of India (ECI), Delhi Election Results 2025 Counting Date, Time, Key Constituencies Live Updates :",
+                    "url": "https://indianexpress.com/article/cities/delhi/delhi-election-results-2025-live-updates-election-commission-of-india-vidhan-sabha-chunav-results-9822255/",
+                    "image": "https://images.indianexpress.com/2025/02/arvind-kejriwal-6.jpg",
+                    "category": null
+                },
+        
+            ]
+        }
+    }
+
+
   ```
 
 ## 🛠 **Tech Stack**
