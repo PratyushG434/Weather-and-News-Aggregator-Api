@@ -26,7 +26,7 @@ export async function getWeatherAndNews(req, res){
     const responseData = { weather: currentWeather, news: latestNews };
 
     // Storing in Redis for 10 min 
-    await redisClient.setEx(`weather_news:${city}`, 600, JSON.stringify(responseData));
+    await redisClient.set(`weather_news:${city}`, JSON.stringify(responseData),'EX',600);
 
     res.json(responseData);
 };
