@@ -37,29 +37,14 @@ export async function register(req, res) {
 
     // Insert user into the database
 
-    bcrypt.hash(password, saltRounds, async (err, hash) => {
-        if (err) {
-            console.error("Error hashing password:", err);
-        } else {
-            try {
-                const result = await pool.query("INSERT INTO users(username, password_hashed) VALUES ($1, $2) RETURNING id, username", [username, hash]);
-
-
-                console.log(result.rows[0]);
-
-                return res.status(201).json({
-                    message: "Registration successful! Please log in to get your authorization token.",
-                    user: result.rows[0] // Returning inserted user details (excluding password)
-                });
-
-            } catch (error) {
-                console.error(error);
-                return res.status(500).json({
-                    message: "Registration failed. Please try again."
-                });
-            }
-        }
-    });
+    try {
+        const hash = await bcrypt.hash(password, saltRounds);
+        await pool.query("INSERT INTO users(username, password_hashed) VALUES ($1, $2)", [username, hash]);
+        return res.status(201).json({ message: "Registration successful!" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Registration failed. Please try again." });
+    }
 }
 
 
@@ -102,5 +87,5 @@ export async function login(req, res) {
         const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
     
     
-        res.json(`Your JWT bearer authorzation token is : ${token}`);
+        res.json({token});
 }

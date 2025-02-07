@@ -11,7 +11,8 @@ export async function SaveUserPreference (req, res){
     let code = null;
     if(language_code !== null)
         code = language_code.code;
-    const country_code = countries.find((element) => element[0].toLowerCase() == country.toLowerCase())[1]|| null;
+    const countryEntry = countries.find((element) => element[0].toLowerCase() === country.toLowerCase());
+    const country_code = countryEntry ? countryEntry[1] : null;
     try {
         // Insert new preferences if not exist
         const insertQuery = `
@@ -22,7 +23,7 @@ export async function SaveUserPreference (req, res){
         // Insert values only if they are provided, else insert nulls
         await pool.query(insertQuery, [
             userId,
-            preferredCity.toLowerCase() || null,
+            preferredCity?.toLowerCase() || null,
             preferredCategory || null,
             code || null,
             country_code || null

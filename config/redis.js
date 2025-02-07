@@ -1,16 +1,10 @@
 import Redis from 'ioredis';
 
-let redisClient;
+const redisClient = new Redis(process.env.REDIS_URL, { lazyConnect: true });
 
-if (!global.redisClient) {
-    global.redisClient = new Redis(process.env.REDIS_URL,{
-        lazyConnect: true, 
-    });
-    global.redisClient.on('error', (err) => {
-        console.error('Redis Error:', err);
-    });
-}
+redisClient.on('error', (err) => {
+    console.error('Redis Error:', err);
+});
 
-redisClient = global.redisClient;
 
 export default redisClient;
