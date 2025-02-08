@@ -1,10 +1,12 @@
-import Redis from 'ioredis';
+// import { createClient } from "redis"
 
-const redisClient = new Redis(process.env.REDIS_URL, { lazyConnect: true });
+// const client = createClient ({
+//   url : "rediss://default:********@easy-mackerel-12006.upstash.io:6379"
+// });
 
-redisClient.on('error', (err) => {
-    console.error('Redis Error:', err);
-});
+// client.on("error", function(err) {
+//   throw err;
+// });
+// await client.connect()
 
-
-export default redisClient;
+// export default redisClient;

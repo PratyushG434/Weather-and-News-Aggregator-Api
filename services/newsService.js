@@ -14,7 +14,7 @@ export async function getNews(city_name,preferences ) {
     // Fetching News API Data
     try {
         const {data} = await axios.get(
-            `${newsApiUrlBase}?q=${city_name||preferences.preferredCategory||preferences.country}&from=${dateBefore.toISOString()}&to=${dateToday.toISOString()}&sortBy=relevancy&apiKey=${process.env.NEWS_API_KEY}`
+            `${newsApiUrlBase}?q=${city_name||preferences.preferredCategory||preferences.country}&language=${preferences.language||'en'}&from=${dateBefore.toISOString()}&to=${dateToday.toISOString()}&sortBy=relevancy&apiKey=${process.env.NEWS_API_KEY}`
         );
         if (!data || !data.articles || data.articles.length === 0) {
             latestNews.gNewsApi = { message: "No news found for this query in the News API." };

@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.get('/', dataController.getWeatherAndNews);
 router.get('/personalised', authenticateToken,dataController.getPersonalizedWeatherAndNews);
-router.delete("/clear-cache", authenticateToken, dataController.deleteCache)
-router.delete("/clear-cache/:city", authenticateToken,dataController.deleteCacheCity)
+// router.delete("/clear-cache", authenticateToken, dataController.deleteCache)
+// router.delete("/clear-cache/:city", authenticateToken,dataController.deleteCacheCity)
     
 
 export default router;
