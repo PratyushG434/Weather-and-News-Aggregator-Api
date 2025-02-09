@@ -1,12 +1,14 @@
-// import { createClient } from "redis"
+import { createClient } from "redis";
+import env from 'dotenv';
 
-// const client = createClient ({
-//   url : "rediss://default:********@easy-mackerel-12006.upstash.io:6379"
-// });
+env.config();
+const client = createClient ({
+  url : process.env.REDIS_URL
+});
 
-// client.on("error", function(err) {
-//   throw err;
-// });
-// await client.connect()
+client.on("error", function(err) {
+  throw err;
+});
+await client.connect()
 
-// export default redisClient;
+export default redisClient;
