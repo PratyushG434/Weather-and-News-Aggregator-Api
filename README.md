@@ -285,7 +285,7 @@ Deletes user preferences.
 
 ---
 
-### 🗑️ **Cache Management (Redis)**
+### 🗑️ **Cache Management (Redis)**  [ Cache routes are currently unavailable because of some connection issues with redis database when deployed ]
 #### 8️⃣ Delete Weather and News Cache
 **Endpoint:** `DELETE /weatherAndNews/clear-cache`  
 Clears cached weather and news data for the city if specified otherwise all cache.
